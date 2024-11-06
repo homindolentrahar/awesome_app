@@ -2,6 +2,7 @@ import 'package:awesome_app/core/constant/base_constant.dart';
 import 'package:awesome_app/core/constant/gallery_constant.dart';
 import 'package:awesome_app/core/di/injection.dart';
 import 'package:awesome_app/features/gallery/presentation/bloc/images/images_bloc.dart';
+import 'package:awesome_app/features/gallery/presentation/widgets/gallery_grid_view.dart';
 import 'package:awesome_app/features/gallery/presentation/widgets/gallery_list_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -111,14 +112,21 @@ class _GalleryLayout extends StatelessWidget {
                       .read<ImagesBloc>()
                       .add(ImagesEvent.GetImages(page: state.page + 1));
                 },
-                child: ListView.separated(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  itemCount: state.data.length,
-                  separatorBuilder: (_, index) => const SizedBox(height: 8),
-                  itemBuilder: (_, index) => GalleryListItem(
-                    data: state.data[index],
-                  ),
-                ),
+                child: state.viewType == GalleryViewType.grid
+                    ? GalleryGridView(
+                        data: state.data,
+                        onPressed: (id) {},
+                      )
+                    : ListView.separated(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        itemCount: state.data.length,
+                        separatorBuilder: (_, index) =>
+                            const SizedBox(height: 8),
+                        itemBuilder: (_, index) => GalleryListItem(
+                          data: state.data[index],
+                          onPressed: (id) {},
+                        ),
+                      ),
               );
             }
 

@@ -64,6 +64,8 @@ class ImagesBloc extends Bloc<ImagesEvent, ImagesState> {
           emit(state.copyWith(
             viewType: instance.viewType,
           ));
+
+          add(const ImagesEvent.GetImages());
         },
       );
     });
