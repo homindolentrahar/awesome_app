@@ -31,7 +31,7 @@ class ApiLogInterceptor extends InterceptorsWrapper {
     final code = response.statusCode ?? -1;
 
     /// Alter incoming response from API to match our Response schema
-    Map<String, dynamic> data;
+    Map<String, dynamic> data = {};
 
     if (response.data is Map<String, dynamic>) {
       data = response.data;
@@ -43,14 +43,17 @@ class ApiLogInterceptor extends InterceptorsWrapper {
 
     data['status_code'] = response.statusCode;
     data['message'] = response.statusMessage;
-    data['pagination'] = {
-      'page': data['page'],
-      'per_page': data['per_page'],
-      'total_page': data['total_results']
-    };
-
     if (data['data'] == null) {
-      data['data'] = data['photos'];
+      if (data['photos'] != null) {
+        data['data'] = data['photos'];
+        data['pagination'] = {
+          'page': data['page'],
+          'per_page': data['per_page'],
+          'total_page': data['total_results']
+        };
+      } else {
+        data['data'] = response.data;
+      }
     }
 
     response.data = data;

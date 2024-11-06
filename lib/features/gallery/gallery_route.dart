@@ -1,4 +1,5 @@
 import 'package:awesome_app/features/gallery/gallery_module.dart';
+import 'package:awesome_app/features/gallery/presentation/pages/gallery_detail_page.dart';
 import 'package:awesome_app/features/gallery/presentation/pages/gallery_page.dart';
 import 'package:go_router/go_router.dart';
 
@@ -18,5 +19,15 @@ abstract class GalleryRoute {
 
       return const GalleryPage();
     },
+    routes: [
+      GoRoute(
+        path: ":id",
+        builder: (_, state) {
+          final int id = int.parse(state.pathParameters['id'] ?? "-1");
+
+          return GalleryDetailPage(id: id);
+        },
+      )
+    ],
   );
 }

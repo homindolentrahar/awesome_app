@@ -1,12 +1,14 @@
 import 'package:awesome_app/core/constant/base_constant.dart';
 import 'package:awesome_app/core/constant/gallery_constant.dart';
 import 'package:awesome_app/core/di/injection.dart';
+import 'package:awesome_app/features/gallery/gallery_route.dart';
 import 'package:awesome_app/features/gallery/presentation/bloc/images/images_bloc.dart';
 import 'package:awesome_app/features/gallery/presentation/widgets/gallery_grid_view.dart';
 import 'package:awesome_app/features/gallery/presentation/widgets/gallery_list_item.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class GalleryPage extends StatelessWidget {
@@ -124,7 +126,9 @@ class _GalleryLayout extends StatelessWidget {
                             const SizedBox(height: 8),
                         itemBuilder: (_, index) => GalleryListItem(
                           data: state.data[index],
-                          onPressed: (id) {},
+                          onPressed: (id) {
+                            context.go("${GalleryRoute.path}/$id");
+                          },
                         ),
                       ),
               );

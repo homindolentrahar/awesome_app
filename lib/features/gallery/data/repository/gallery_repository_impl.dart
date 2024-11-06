@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:awesome_app/features/gallery/domain/model/image_model.dart';
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/app_error.dart';
@@ -46,17 +48,19 @@ class GalleryRepositoryImpl implements GalleryRepository {
       final result = await remoteDataSource.getImageDetail(id);
 
       if (result.statusCode != 200) {
-        return Left(AppError(
+        throw AppError(
           statusCode: result.statusCode,
           message: result.message,
-        ));
+        );
       }
 
+      log("data: ${result.data?.toJson()}");
+
       if (result.data == null) {
-        return Left(AppError(
+        throw AppError(
           statusCode: 404,
           message: result.message,
-        ));
+        );
       }
 
       return Right(result.data!.toModel());

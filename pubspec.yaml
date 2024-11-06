@@ -58,6 +58,7 @@ dependencies:
 
   # UTILS
   logger: ^2.4.0 # Logger
+  url_launcher: ^6.3.1 # URL launcher
 
   flutter_localizations:
     sdk: flutter

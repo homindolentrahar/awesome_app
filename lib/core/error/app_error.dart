@@ -3,4 +3,7 @@ class AppError extends Error {
   final String? message;
 
   AppError({this.statusCode, this.message});
+
+  @override
+  String toString() => "$statusCode: $message";
 }
