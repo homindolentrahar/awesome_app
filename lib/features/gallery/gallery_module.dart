@@ -1,3 +1,4 @@
+import 'package:awesome_app/core/api/api_service.dart';
 import 'package:awesome_app/features/gallery/domain/usecase/get_image_detail_uc.dart';
 import 'package:awesome_app/features/gallery/domain/usecase/get_images_uc.dart';
 
@@ -21,8 +22,9 @@ abstract class GalleryModule {
 
     injector.pushNewScope(scopeName: scopeName);
 
+    final apiService = await injector.getAsync<ApiService>();
     injector.registerLazySingleton<GalleryRemoteDataSource>(
-      () => GalleryRemoteDataSourceImpl(),
+      () => GalleryRemoteDataSourceImpl(apiService),
     );
     injector.registerLazySingleton<GalleryLocalDataSource>(
       () => GalleryLocalDataSourceImpl(),

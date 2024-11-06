@@ -3,7 +3,6 @@ import "package:awesome_app/core/api/response/base_respone.dart";
 import "package:awesome_app/features/gallery/data/dto/image_dto.dart";
 
 import "../../../../core/api/api_service.dart";
-import "../../../../core/di/injection.dart";
 
 abstract interface class GalleryRemoteDataSource {
   Future<BaseListResponse<ImageDto>> getImages({
@@ -15,13 +14,13 @@ abstract interface class GalleryRemoteDataSource {
 }
 
 class GalleryRemoteDataSourceImpl implements GalleryRemoteDataSource {
-  final Future<ApiService> apiService = injector.getAsync<ApiService>();
+  final ApiService apiService;
+
+  GalleryRemoteDataSourceImpl(this.apiService);
 
   @override
   Future<BaseResponse<ImageDto>> getImageDetail(int id) async {
-    final service = await apiService;
-
-    return service.getImageDetail(id: id);
+    return apiService.getImageDetail(id: id);
   }
 
   @override
@@ -29,8 +28,6 @@ class GalleryRemoteDataSourceImpl implements GalleryRemoteDataSource {
     int page = 1,
     int perPage = 10,
   }) async {
-    final service = await apiService;
-
-    return service.getImages(page: page, perPage: perPage);
+    return apiService.getImages(page: page, perPage: perPage);
   }
 }

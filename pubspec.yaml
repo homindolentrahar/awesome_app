@@ -60,6 +60,9 @@ dependencies:
   logger: ^2.4.0 # Logger
   url_launcher: ^6.3.1 # URL launcher
 
+  # TEST
+  mockito: ^5.4.4 # Mock object
+
   flutter_localizations:
     sdk: flutter
 
