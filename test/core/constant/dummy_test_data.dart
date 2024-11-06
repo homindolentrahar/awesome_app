@@ -79,6 +79,9 @@ final successCurrated = BaseListResponse(
   ],
 );
 
+final successCurratedModels =
+    successCurrated.data?.map((e) => e.toModel()).toList() ?? [];
+
 const successCurratedJson = """
 {
   "status_code": 200,

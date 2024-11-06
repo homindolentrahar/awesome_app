@@ -5,17 +5,12 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/app_error.dart';
 import '../../../../core/util/logger_util.dart';
 import '../../../../features/gallery/data/data_source/gallery_remote_data_source.dart';
-import '../../../../features/gallery/data/data_source/gallery_local_data_source.dart';
 import '../../../../features/gallery/domain/repository/gallery_repository.dart';
 
 class GalleryRepositoryImpl implements GalleryRepository {
   final GalleryRemoteDataSource remoteDataSource;
-  final GalleryLocalDataSource localDataSource;
 
-  GalleryRepositoryImpl({
-    required this.remoteDataSource,
-    required this.localDataSource,
-  });
+  GalleryRepositoryImpl({required this.remoteDataSource});
 
   @override
   Future<Either<AppError, List<ImageModel>>> getImages({

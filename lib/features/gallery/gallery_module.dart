@@ -32,7 +32,6 @@ abstract class GalleryModule {
     injector.registerLazySingleton<GalleryRepository>(
       () => GalleryRepositoryImpl(
         remoteDataSource: injector.get(),
-        localDataSource: injector.get(),
       ),
     );
 
