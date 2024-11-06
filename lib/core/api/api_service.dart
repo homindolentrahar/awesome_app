@@ -1,3 +1,4 @@
+import 'package:awesome_app/features/gallery/data/dto/image_dto.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:awesome_app/core/api/api_dio.dart';
@@ -5,7 +6,6 @@ import 'package:awesome_app/core/api/response/base_list_respones.dart';
 import 'package:awesome_app/core/api/response/base_respone.dart';
 import 'package:awesome_app/core/di/injection.dart';
 import 'package:awesome_app/core/util/secure_storage_util.dart';
-import 'package:awesome_app/features/users/data/dto/user_dto.dart';
 
 part 'api_service.g.dart';
 
@@ -38,15 +38,14 @@ abstract class ApiService {
     return ApiService._(dio);
   }
 
-  @POST("/login")
-  Future<BaseResponse> login(@Body() Map<String, dynamic> json);
-
-  @GET("/users")
-  Future<BaseListResponse<UserDto>> getUsers({
-    @Query('page') int page = 1,
-    @Query('per_page') int limit = 10,
+  @GET("/curated")
+  Future<BaseListResponse<ImageDto>> getImages({
+    @Query('page') required int page,
+    @Query('per_page') required int perPage,
   });
 
-  @GET("/users/{id}")
-  Future<BaseResponse<UserDto>> getUserById({@Path('id') required int id});
+  @GET("/photos/{id}")
+  Future<BaseResponse<ImageDto>> getImageDetail({
+    @Path('id') required int id,
+  });
 }
