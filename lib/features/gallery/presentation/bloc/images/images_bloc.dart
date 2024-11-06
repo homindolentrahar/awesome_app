@@ -1,3 +1,6 @@
+import 'package:awesome_app/core/constant/gallery_constant.dart';
+import 'package:awesome_app/features/gallery/domain/model/image_model.dart';
+import 'package:awesome_app/features/gallery/domain/usecase/get_images_uc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,41 +13,59 @@ part 'images_bloc.freezed.dart';
 
 class ImagesBloc extends Bloc<ImagesEvent, ImagesState> {
   final RefreshController refreshController = RefreshController();
+  final GetImagesUc _getImagesUc;
 
-  ImagesBloc() : super(const ImagesState()) {
-    on<ImagesEvent>((event, emit) {
-      event.map(GetImages: (instance) async {
-        try {
+  ImagesBloc({
+    required GetImagesUc getImagesUc,
+  })  : _getImagesUc = getImagesUc,
+        super(const ImagesState()) {
+    on<ImagesEvent>((event, emit) async {
+      await event.map(
+        GetImages: (instance) async {
           emit(state.copyWith(
-            status: BaseStatus.loading,
-            query: instance.query,
+            status:
+                instance.page > 1 ? BaseStatus.loadMore : BaseStatus.loading,
             page: instance.page,
-            limit: instance.limit,
+            perPage: instance.perPage,
           ));
 
-          final data = ['User 1', 'User 2', 'User 3'];
+          final result = await _getImagesUc(
+            page: state.page,
+            limit: state.perPage,
+          );
 
-          final listOfData = state.data;
+          result.fold((error) {
+            emit(state.copyWith(
+              status: BaseStatus.error,
+              statusCode: error.statusCode,
+              message: error.message,
+            ));
+          }, (data) {
+            final list = List<ImageModel>.from(state.data);
 
-          if (instance.page <= 1) {
-            listOfData.clear();
-          }
+            if (state.page <= 1) {
+              list.clear();
+            }
 
-          listOfData.addAll(data);
+            list.addAll(data);
 
+            emit(state.copyWith(
+              status: BaseStatus.success,
+              hasMoreData: !(data.length < state.perPage),
+              data: list,
+            ));
+
+            _completeLoad();
+          });
+
+          _completeLoad();
+        },
+        ChangeView: (instance) {
           emit(state.copyWith(
-            status: BaseStatus.success,
-            data: listOfData,
-            hasMoreData: !(data.length < instance.limit),
+            viewType: instance.viewType,
           ));
-
-          _completeLoad();
-        } catch (e) {
-          emit(state.copyWith(status: BaseStatus.error, message: e.toString()));
-
-          _completeLoad();
-        }
-      });
+        },
+      );
     });
   }
 

@@ -8,7 +8,19 @@ import '../../features/gallery/domain/repository/gallery_repository.dart';
 import '../../features/gallery/data/repository/gallery_repository_impl.dart';
 
 abstract class GalleryModule {
+  static const String scopeName = "HomeModule";
+
+  static void dispose() {
+    injector.dropScope(scopeName);
+  }
+
   static void inject() async {
+    if (injector.hasScope(scopeName)) {
+      return;
+    }
+
+    injector.pushNewScope(scopeName: scopeName);
+
     injector.registerLazySingleton<GalleryRemoteDataSource>(
       () => GalleryRemoteDataSourceImpl(),
     );

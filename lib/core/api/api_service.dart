@@ -4,8 +4,6 @@ import 'package:retrofit/retrofit.dart';
 import 'package:awesome_app/core/api/api_dio.dart';
 import 'package:awesome_app/core/api/response/base_list_respones.dart';
 import 'package:awesome_app/core/api/response/base_respone.dart';
-import 'package:awesome_app/core/di/injection.dart';
-import 'package:awesome_app/core/util/secure_storage_util.dart';
 
 part 'api_service.g.dart';
 
@@ -22,12 +20,7 @@ abstract class ApiService {
 
     newHeader.addAll(header);
 
-    // Attach access token herea
-    final accessToken = await injector.get<SecureStorageUtil>().accessToken;
-
-    if (newHeader['Authorization'] == null) {
-      newHeader['Authorization'] = 'Bearer $accessToken';
-    }
+    newHeader['Authorization'] = '';
 
     final dio = ApiDio.getDio(
       baseUrl: baseUrl,

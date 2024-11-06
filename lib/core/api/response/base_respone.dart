@@ -14,7 +14,7 @@ class BaseResponse<T> {
   });
 
   factory BaseResponse.fromJson(Map<String, dynamic> json) => BaseResponse(
-        statusCode: json['statusCode'],
+        statusCode: json['status_code'],
         message: json['message'],
         errors: json['errors'],
         data: json['data'] == null

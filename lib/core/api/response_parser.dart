@@ -1,5 +1,5 @@
+import 'package:awesome_app/features/gallery/data/dto/image_dto.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:awesome_app/features/users/data/dto/user_dto.dart';
 
 bool typeEqual<L, R>() => L == R;
 
@@ -18,8 +18,8 @@ class ResponseParser<T> extends JsonConverter<T, Object> {
 
     if (typeEqualn<T, dynamic>()) {
       return dynamic as T;
-    } else if (typeEqualn<T, UserDto>()) {
-      return UserDto.fromJson(json) as T;
+    } else if (typeEqualn<T, ImageDto>()) {
+      return ImageDto.fromJson(json) as T;
     }
 
     throw UnimplementedError("`$T` fromJson factory not implemented");
@@ -29,8 +29,8 @@ class ResponseParser<T> extends JsonConverter<T, Object> {
   Object toJson(T object) {
     if (typeEqualn<T, dynamic>()) {
       return object as Object;
-    } else if (typeEqualn<T, UserDto>()) {
-      return (object as UserDto).toJson() as Object;
+    } else if (typeEqualn<T, ImageDto>()) {
+      return (object as ImageDto).toJson() as Object;
     }
 
     throw UnimplementedError("`$T` fromJson factory not implemented");

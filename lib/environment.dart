@@ -35,13 +35,13 @@ class Environment {
   static String get appBaseUrl {
     switch (_flavor) {
       case EnvFlavor.dev:
-        return "https://api.pexels.com/";
+        return "https://api.pexels.com/v1/";
       case EnvFlavor.staging:
-        return "https://api.pexels.com/";
+        return "https://api.pexels.com/v1/";
       case EnvFlavor.prod:
-        return "https://api.pexels.com/";
+        return "https://api.pexels.com/v1/";
       default:
-        return "https://api.pexels.com/";
+        return "https://api.pexels.com/v1/";
     }
   }
 }

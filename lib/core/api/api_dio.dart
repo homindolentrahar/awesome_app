@@ -12,11 +12,13 @@ abstract class ApiDio {
   }) {
     final dio = Dio(
       BaseOptions(
-        baseUrl: baseUrl ?? Environment.appBaseUrl,
-        connectTimeout: Duration(milliseconds: connectTimeout),
-        receiveTimeout: Duration(milliseconds: receiveTimeout),
-        contentType: contentType,
-      ),
+          baseUrl: baseUrl ?? Environment.appBaseUrl,
+          connectTimeout: Duration(milliseconds: connectTimeout),
+          receiveTimeout: Duration(milliseconds: receiveTimeout),
+          contentType: contentType,
+          validateStatus: (status) {
+            return true;
+          }),
     );
 
     dio.options.headers.addAll(header);

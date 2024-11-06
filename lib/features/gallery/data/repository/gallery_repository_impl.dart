@@ -27,16 +27,15 @@ class GalleryRepositoryImpl implements GalleryRepository {
       );
 
       if (result.statusCode != 200) {
-        return Left(AppError(
+        throw AppError(
           statusCode: result.statusCode,
           message: result.message,
-        ));
+        );
       }
 
       final list = result.data?.map((e) => e.toModel()).toList() ?? [];
       return Right(list);
     } on AppError catch (e) {
-      LoggerUtil.instance().error(e.toString());
       return Left(e);
     }
   }

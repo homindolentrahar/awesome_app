@@ -10,7 +10,7 @@ class ApiLogInterceptor extends InterceptorsWrapper {
     final url = options.uri.toString();
     final method = options.method;
     final header = options.headers;
-    final body = options.queryParameters;
+    final body = options.data;
 
     LoggerUtil.instance().logApi(
       level: Level.info,

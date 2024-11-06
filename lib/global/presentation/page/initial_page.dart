@@ -17,7 +17,9 @@ class _InitialPageState extends State<InitialPage> {
     super.initState();
 
     Future.delayed(const Duration(milliseconds: 2500), () {
-      context.goNamed(Routes.home);
+      if (context.mounted) {
+        context.goNamed(Routes.gallery);
+      }
     });
   }
 

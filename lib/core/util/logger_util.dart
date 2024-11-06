@@ -43,7 +43,7 @@ class LoggerUtil {
     final contentType = header['Content-Type'];
     final appId = header['app-id'];
     final appSecret = header['app-secret'];
-    final token = header['auth'];
+    final token = header['Authorization'];
 
     logBuffer.add(type.name.toUpperCase());
     logBuffer.add("${method.toUpperCase()} - $url");
