@@ -117,7 +117,9 @@ class _GalleryLayout extends StatelessWidget {
                 child: state.viewType == GalleryViewType.grid
                     ? GalleryGridView(
                         data: state.data,
-                        onPressed: (id) {},
+                        onPressed: (id) {
+                          context.go("${GalleryRoute.path}/$id");
+                        },
                       )
                     : ListView.separated(
                         padding: const EdgeInsets.symmetric(vertical: 16),
