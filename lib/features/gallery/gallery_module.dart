@@ -1,3 +1,5 @@
+import 'package:awesome_app/core/api/api_service.dart';
+import 'package:awesome_app/core/constant/local_constant.dart';
 import 'package:awesome_app/features/gallery/domain/usecase/get_image_detail_uc.dart';
 import 'package:awesome_app/features/gallery/domain/usecase/get_images_uc.dart';
 
@@ -25,10 +27,15 @@ abstract class GalleryModule {
       () => GalleryRemoteDataSourceImpl(injector.get()),
     );
     injector.registerLazySingleton<GalleryLocalDataSource>(
-      () => GalleryLocalDataSourceImpl(),
+      () => GalleryLocalDataSourceImpl(
+        injector.get(instanceName: LocalConstant.cache),
+      ),
     );
     injector.registerLazySingleton<GalleryRepository>(
-      () => GalleryRepositoryImpl(remoteDataSource: injector.get()),
+      () => GalleryRepositoryImpl(
+        remoteDataSource: injector.get(),
+        localDataSource: injector.get(),
+      ),
     );
 
     // Usecases

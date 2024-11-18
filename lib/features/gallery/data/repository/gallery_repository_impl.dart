@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:awesome_app/features/gallery/data/data_source/gallery_local_data_source.dart';
 import 'package:awesome_app/features/gallery/domain/model/image_model.dart';
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/app_error.dart';
@@ -9,8 +10,12 @@ import '../../../../features/gallery/domain/repository/gallery_repository.dart';
 
 class GalleryRepositoryImpl implements GalleryRepository {
   final GalleryRemoteDataSource remoteDataSource;
+  final GalleryLocalDataSource localDataSource;
 
-  GalleryRepositoryImpl({required this.remoteDataSource});
+  GalleryRepositoryImpl({
+    required this.remoteDataSource,
+    required this.localDataSource,
+  });
 
   @override
   Future<Either<AppError, List<ImageModel>>> getImages({
@@ -30,7 +35,14 @@ class GalleryRepositoryImpl implements GalleryRepository {
         );
       }
 
-      final list = result.data?.map((e) => e.toModel()).toList() ?? [];
+      await localDataSource.cachedImages(result.data ?? []);
+      final cachedImages = await localDataSource.getCachedImages();
+
+      if (cachedImages.isEmpty) {
+        return Right(result.data?.map((e) => e.toModel()).toList() ?? []);
+      }
+
+      final list = cachedImages.map((e) => e.toModel()).toList();
       return Right(list);
     } on AppError catch (e) {
       return Left(e);
@@ -58,7 +70,10 @@ class GalleryRepositoryImpl implements GalleryRepository {
         );
       }
 
-      return Right(result.data!.toModel());
+      await localDataSource.cachedImage(result.data!);
+      final cachedImage = await localDataSource.getCachedImageById(id);
+
+      return Right(cachedImage?.toModel() ?? result.data!.toModel());
     } on AppError catch (e) {
       LoggerUtil.instance().error(e.toString());
       return Left(e);

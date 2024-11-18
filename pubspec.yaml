@@ -43,6 +43,8 @@ dependencies:
   flutter_secure_storage: ^9.2.2 # Save configuration in local securely
   dartz: ^0.10.1 # Functional programming
   go_router: ^14.3.0 # Routing
+  hive: ^2.2.3 # Local database for caching
+  hive_flutter: ^1.1.0 # Extension for Flutter usage
 
   freezed_annotation: ^2.4.4 # Immutable capability on class
 

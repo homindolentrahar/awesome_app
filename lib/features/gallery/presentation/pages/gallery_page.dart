@@ -1,6 +1,8 @@
 import 'package:awesome_app/core/constant/base_constant.dart';
 import 'package:awesome_app/core/constant/gallery_constant.dart';
 import 'package:awesome_app/core/di/injection.dart';
+import 'package:awesome_app/features/gallery/domain/repository/gallery_repository.dart';
+import 'package:awesome_app/features/gallery/domain/usecase/get_images_uc.dart';
 import 'package:awesome_app/features/gallery/gallery_route.dart';
 import 'package:awesome_app/features/gallery/presentation/bloc/images/images_bloc.dart';
 import 'package:awesome_app/features/gallery/presentation/widgets/gallery_grid_view.dart';
@@ -19,8 +21,9 @@ class GalleryPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ImagesBloc>(
-          create: (_) => ImagesBloc(getImagesUc: injector.get())
-            ..add(const ImagesEvent.GetImages()),
+          create: (_) => ImagesBloc(
+            getImagesUc: GetImagesUc(injector.get<GalleryRepository>()),
+          )..add(const ImagesEvent.GetImages()),
         ),
       ],
       child: const _GalleryLayout(),

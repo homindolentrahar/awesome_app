@@ -1,4 +1,6 @@
+import 'package:awesome_app/core/constant/local_constant.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:awesome_app/core/util/secure_storage_util.dart';
@@ -14,10 +16,13 @@ abstract class Injection {
 
     // Global utils
     injector.registerLazySingleton(() => SecureStorageUtil.instance);
+    injector.registerLazySingleton(
+      () => Hive.box(LocalConstant.cache),
+      instanceName: LocalConstant.cache,
+    );
 
     // Global Service
     injector.registerLazySingleton(() => ApiService.create());
-
     final apiService = await injector.get<Future<ApiService>>();
     injector.registerLazySingleton(() => apiService);
   }
