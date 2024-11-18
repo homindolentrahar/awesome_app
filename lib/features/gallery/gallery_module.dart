@@ -1,4 +1,3 @@
-import 'package:awesome_app/core/api/api_service.dart';
 import 'package:awesome_app/features/gallery/domain/usecase/get_image_detail_uc.dart';
 import 'package:awesome_app/features/gallery/domain/usecase/get_images_uc.dart';
 
@@ -9,7 +8,7 @@ import '../../features/gallery/domain/repository/gallery_repository.dart';
 import '../../features/gallery/data/repository/gallery_repository_impl.dart';
 
 abstract class GalleryModule {
-  static const String scopeName = "HomeModule";
+  static const String scopeName = "GalleryModule";
 
   static void dispose() {
     injector.dropScope(scopeName);
@@ -22,17 +21,14 @@ abstract class GalleryModule {
 
     injector.pushNewScope(scopeName: scopeName);
 
-    final apiService = await injector.getAsync<ApiService>();
     injector.registerLazySingleton<GalleryRemoteDataSource>(
-      () => GalleryRemoteDataSourceImpl(apiService),
+      () => GalleryRemoteDataSourceImpl(injector.get()),
     );
     injector.registerLazySingleton<GalleryLocalDataSource>(
       () => GalleryLocalDataSourceImpl(),
     );
     injector.registerLazySingleton<GalleryRepository>(
-      () => GalleryRepositoryImpl(
-        remoteDataSource: injector.get(),
-      ),
+      () => GalleryRepositoryImpl(remoteDataSource: injector.get()),
     );
 
     // Usecases

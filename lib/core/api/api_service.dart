@@ -20,7 +20,8 @@ abstract class ApiService {
 
     newHeader.addAll(header);
 
-    newHeader['Authorization'] = '';
+    newHeader['Authorization'] =
+        'UYNd7GlcR6JSnZkZskY2rMTQgCjEuMHWvT7gDKxWODQoSVmnLDu0yaT9';
 
     final dio = ApiDio.getDio(
       baseUrl: baseUrl,

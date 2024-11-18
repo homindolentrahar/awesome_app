@@ -16,6 +16,9 @@ abstract class Injection {
     injector.registerLazySingleton(() => SecureStorageUtil.instance);
 
     // Global Service
-    injector.registerLazySingletonAsync(() => ApiService.create());
+    injector.registerLazySingleton(() => ApiService.create());
+
+    final apiService = await injector.get<Future<ApiService>>();
+    injector.registerLazySingleton(() => apiService);
   }
 }
